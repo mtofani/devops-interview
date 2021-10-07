@@ -2,7 +2,7 @@ version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   build:
     # Remove if parallelism is not desired
-    
+    parallelism: 2
     environment:
       # Configure the JVM and Gradle to avoid OOM errors
       _JAVA_OPTIONS: "-Xmx3g"
@@ -31,6 +31,7 @@ jobs: # a collection of steps
           # Use "./gradlew test" instead if tests are not run in parallel
           command: |
             cd src/test/java
+            chmod +x gradlew
             # Get list of classnames of tests that should run on this node
             CLASSNAMES=$(circleci tests glob "**/*.java" \
               | cut -c 1- | sed 's@/@.@g' \
